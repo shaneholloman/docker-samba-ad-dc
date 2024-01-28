@@ -1,0 +1,105 @@
+# This Dockerfile is used to build an image containing the Samba server
+
+# Start from the almalinux:9 base image
+FROM almalinux:9
+
+# Update all packages, install EPEL repository and some utilities, enable EPEL and CRB repositories
+# Install a bunch of dependencies required for Samba
+RUN dnf update -y && \
+  dnf install epel-release dnf-utils -y && \
+  dnf config-manager --enable epel && \
+  dnf config-manager --set-enabled crb && \
+  dnf install \
+    bind-utils \
+    bison \
+    dbus-devel \
+    docbook-style-xsl \
+    flex \
+    gcc \
+    gdb \
+    gnutls-devel \
+    gpgme-devel \
+    hostname \
+    iproute \
+    jansson-devel \
+    jq \
+    keyutils-libs-devel \
+    krb5-workstation \
+    libacl-devel \
+    libaio-devel \
+    libarchive-devel \
+    libattr-devel \
+    libblkid-devel \
+    libtasn1 \
+    libtasn1-tools \
+    libtirpc-devel \
+    libxml2-devel \
+    libxslt \
+    lmdb-devel \
+    netcat \
+    openldap-clients \
+    openldap-devel \
+    pam-devel \
+    perl \
+    perl-ExtUtils-MakeMaker \
+    perl-JSON \
+    perl-Parse-Yapp \
+    popt-devel \
+    python3-cryptography \
+    python3-devel \
+    python3-dns \
+    python3-gpg \
+    python3-markdown \
+    readline-devel \
+    rpcgen \
+    systemd-devel \
+    tar \
+    zlib-devel \
+  -y && dnf clean all -y
+# Clean up dnf cache
+
+# Set the Samba version to latest
+ARG SMB_VERSION=latest
+
+# Set environment variables for locale and PATH
+ENV PATH /usr/local/samba/bin:/usr/local/samba/sbin:$PATH
+ENV LC_CTYPE C.UTF-8
+ENV LC_MESSAGES C.UTF-8
+ENV LC_ALL C.UTF-8
+
+# Set the working directory to /usr/local/src
+WORKDIR /usr/local/src
+
+# Download the Samba source code, extract it, and remove the tarball
+RUN curl -O https://download.samba.org/pub/samba/samba-$SMB_VERSION.tar.gz && \
+  mkdir samba && \
+  tar zxvf samba-$SMB_VERSION.tar.gz -C samba --strip-components=1 && \
+  rm -rf samba-$SMB_VERSION.tar.gz
+
+# Set the working directory to the Samba source code directory
+WORKDIR /usr/local/src/samba
+
+# Compile and install Samba, then remove the source code directory
+RUN ./configure && \
+  make -j 3 && \
+  make install && \
+  rm -rf /usr/local/src/samba
+
+# Set the working directory to /usr/local/sbin
+WORKDIR /usr/local/sbin
+
+# Copy the sbin directory from the host to the image
+COPY sbin /usr/local/sbin
+
+# Run the samba-domain-provision script and start Samba in the foreground when the container starts
+CMD bash -c "samba-domain-provision && samba -F"
+
+# Create a volume for the Samba configuration and data
+VOLUME /usr/local/samba
+
+# Check if Samba is running by checking if port 445 is open
+HEALTHCHECK --interval=5s --timeout=3s --retries=60 \
+  CMD nc -z localhost 445 || exit 1
+
+# Expose Samba and related service ports
+EXPOSE 53 53/udp 88 88/udp 123/udp 135 137/udp 138/udp 139 389 389/udp 445 464 464/udp 636 3268 3269 49152-65535

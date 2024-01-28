@@ -1,0 +1,109 @@
+# This Dockerfile is used to build an image containing the Samba server
+
+# Start from the Ubuntu base image
+FROM ubuntu
+
+# Update all packages, upgrade the system, and install required packages
+# DEBIAN_FRONTEND=noninteractive is used to run commands in non-interactive mode
+RUN apt update && apt upgrade -y && \
+  DEBIAN_FRONTEND=noninteractive \
+  apt install \
+    acl \
+    attr \
+    autoconf \
+    bind9utils \
+    bison \
+    build-essential \
+    curl \
+    debhelper \
+    dnsutils \
+    docbook-xml \
+    docbook-xsl \
+    flex \
+    gdb \
+    iproute2 \
+    iputils-ping \
+    jq \
+    krb5-user \
+    ldap-utils \
+    libacl1-dev \
+    libaio-dev \
+    libarchive-dev \
+    libattr1-dev \
+    libblkid-dev \
+    libbsd-dev \
+    libcap-dev \
+    libcups2-dev \
+    libdbus-1-dev \
+    libgnutls28-dev \
+    libgpgme-dev \
+    libjansson-dev \
+    libjson-perl \
+    libldap2-dev \
+    liblmdb-dev \
+    libncurses5-dev \
+    libpam0g-dev \
+    libparse-yapp-perl \
+    libpopt-dev \
+    libreadline-dev \
+    lmdb-utils \
+    netcat-traditional \
+    nettle-dev \
+    perl \
+    perl-modules \
+    pkg-config \
+    python3-all-dev \
+    python3-cryptography \
+    python3-dbg \
+    python3-dev \
+    python3-dnspython \
+    python3-gpg \
+  -y && apt clean autoclean && \
+  apt autoremove -y
+# Clean up APT cache and remove packages that are no longer needed
+
+# Set the Samba version to latest
+ARG SMB_VERSION=latest
+
+# Set environment variables for locale and PATH
+ENV PATH /usr/local/samba/bin:/usr/local/samba/sbin:$PATH
+ENV LC_CTYPE C.UTF-8
+ENV LC_MESSAGES C.UTF-8
+ENV LC_ALL C.UTF-8
+
+# Set the working directory to /usr/local/src
+WORKDIR /usr/local/src
+
+# Download the Samba source code, extract it, and remove the tarball
+RUN curl -O https://download.samba.org/pub/samba/samba-$SMB_VERSION.tar.gz && \
+  mkdir samba && \
+  tar zxvf samba-$SMB_VERSION.tar.gz -C samba --strip-components=1 && \
+  rm -rf samba-$SMB_VERSION.tar.gz
+
+# Set the working directory to the Samba source code directory
+WORKDIR /usr/local/src/samba
+
+# Compile and install Samba, then remove the source code directory
+RUN ./configure && \
+  make -j 3 && \
+  make install && \
+  rm -rf /usr/local/src/samba
+
+# Set the working directory to /usr/local/sbin
+WORKDIR /usr/local/sbin
+
+# Copy the sbin directory from the host to the image
+COPY sbin /usr/local/sbin
+
+# Run the samba-domain-provision script and start Samba in the foreground when the container starts
+CMD bash -c "samba-domain-provision && samba -F"
+
+# Create a volume for the Samba configuration and data
+VOLUME /usr/local/samba
+
+# Check if Samba is running by checking if port 445 is open
+HEALTHCHECK --interval=5s --timeout=3s --retries=60 \
+  CMD nc -z localhost 445 || exit 1
+
+# Expose Samba and related service ports
+EXPOSE 53 53/udp 88 88/udp 123/udp 135 137/udp 138/udp 139 389 389/udp 445 464 464/udp 636 3268 3269 49152-65535

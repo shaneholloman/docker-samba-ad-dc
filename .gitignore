@@ -1,0 +1,28 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts
+dev/amd64/build/
+dev/arm64/build/
+
+# Ignore test output
+*.log
+*.tmp
+
+# Ignore Docker volumes
+*.vdi
+
+# Ignore files created by the IDE
+*.code-workspace
+.vscode/
+
+# Ignore files created by the build system
+Makefile.out
+
+# Ignore files created by the operating system
+*.swp
+*.swo
+
+## Ignore vscode specific
+.vscode/*
