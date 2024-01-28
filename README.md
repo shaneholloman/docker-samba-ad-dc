@@ -1,10 +1,6 @@
 # samba-ad-dc
 
-[![dockerhub](https://img.shields.io/docker/v/shaneholloman/samba-ad-dc)](https://hub.docker.com/r/shaneholloman/samba-ad-dc)
-[![gh-actions](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/almalinux-image.yml/badge.svg)](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/almalinux-image.yml)
-[![gh-actions](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/rockylinux-image.yml/badge.svg)](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/rockylinux-image.yml)
-[![gh-actions](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/debian-image.yml/badge.svg)](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/debian-image.yml)
-[![gh-actions](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/ubuntu-image.yml/badge.svg)](https://github.com/shaneholloman/samba-ad-dc/actions/workflows/ubuntu-image.yml)
+<-- badge placeholder -->
 
 Samba Active Directory Domain Controller Docker Image - still dev stage - don't use
 
