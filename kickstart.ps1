@@ -44,23 +44,25 @@ if ($missingVars.Count -ne 0) {
         Write-Host $var
     }
     Write-Host "Please add them to your environment variables."
-    exit 1
+    return
 }
 
 # Loop through each secret to set it for the current repository
 foreach ($key in $secrets.Keys) {
-    $value = $secrets[$key]
-    $command = "echo $value | gh secret set $key --repo=$githubAccount/$repoName"
+    $secretValue = $secrets[$key]
+    $secretValue | Out-File -FilePath secretValue.txt -NoNewline -Encoding utf8
+    $command = "Get-Content secretValue.txt -Raw | gh secret set $key --repo=$githubAccount/$repoName"
     Invoke-Expression -Command $command
+    Remove-Item secretValue.txt
 }
 
 # Tag and push after setting the secrets
-$commitMessage = "initial commit"
+$commitMessage = "still working on ci"
 $tagVersion = "0.0.1"
 $tagMessage = "initial tag"
 
-git commit --allow-empty -m $commitMessage
-git tag -a $tagVersion -m $tagMessage
+git commit --allow-empty -m "$commitMessage"
+git tag -a $tagVersion -m "$tagMessage"
 
 # Ask the user if the current git tag and message are correct
 Write-Host "`nThe current git tag is $tagVersion with the message '$tagMessage'. Is this correct? (yes/no)"

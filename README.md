@@ -1,5 +1,7 @@
 # samba-ad-dc
 
+[![almalinux](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/almalinux-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/almalinux-image.yml) [![debian](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/debian-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/debian-image.yml) [![rockylinux](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/rockylinux-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/rockylinux-image.yml) [![ubuntu](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/ubuntu-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/ubuntu-image.yml)
+
 <-- badge placeholder -->
 
 Samba Active Directory Domain Controller Docker Image - still dev stage - don't use
@@ -49,6 +51,7 @@ Samba Active Directory Domain Controller Docker Image - still dev stage - don't 
 
 TODO:
 
+- [ ] set another default domain testing server and client
 - [ ] Create vscode devcontainer for portable development of this repo since flipping between os's is a pain
 - [ ] [Sysvol replication workaround](https://wiki.samba.org/index.php/Rsync_based_SysVol_replication_workaround)
 
