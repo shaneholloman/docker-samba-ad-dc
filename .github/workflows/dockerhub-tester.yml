@@ -28,6 +28,4 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/hello-world:test
 
       - name: Remove image
-        run: |
-          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/hello-world:test
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/hello-world:test
+        run: docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/hello-world:test
