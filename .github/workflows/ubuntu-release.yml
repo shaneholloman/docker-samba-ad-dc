@@ -46,4 +46,4 @@ jobs:
           file: dockerfiles/ubuntu
           platforms: linux/amd64,linux/arm64
           push: ${{ github.ref == 'refs/heads/main' }}
-          tags: samba-ad-dc-ubuntu:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/samba-ad-dc-ubuntu:latest
