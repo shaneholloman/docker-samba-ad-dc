@@ -2,8 +2,6 @@
 
 [![almalinux](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/almalinux-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/almalinux-image.yml) [![debian](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/debian-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/debian-image.yml) [![rockylinux](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/rockylinux-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/rockylinux-image.yml) [![ubuntu](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/ubuntu-image.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/ubuntu-image.yml)
 
-<-- badge placeholder -->
-
 Samba Active Directory Domain Controller Docker Image - still dev stage - don't use
 
 1. Provision a new domain
