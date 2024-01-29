@@ -2,12 +2,12 @@ version: "3.1"
 
 services:
   dc1:
-    image: samba:almalinux
+    image: samba:ubuntu
     restart: unless-stopped
     network_mode: host
     build:
       context: .
-      dockerfile: dockerfiles/almalinux
+      dockerfile: dockerfiles/ubuntu
       args:
         SMB_VERSION: "${SMB_VERSION:-latest}"
     container_name: dc1

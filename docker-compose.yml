@@ -2,11 +2,11 @@ version: "3.8"
 
 services:
   dc1:
-    image: samba:almalinux
+    image: samba:ubuntu
     restart: unless-stopped
     build:
       context: .
-      dockerfile: dockerfiles/almalinux
+      dockerfile: dockerfiles/ubuntu
       args:
         SMB_VERSION: "${SMB_VERSION:-latest}"
     container_name: dc1
@@ -38,11 +38,11 @@ services:
         ipv4_address: 172.16.238.10
 
   dc2:
-    image: samba:ubuntu
+    image: samba:almalinux
     restart: unless-stopped
     build:
       context: .
-      dockerfile: dockerfiles/ubuntu
+      dockerfile: dockerfiles/almalinux
       args:
         SMB_VERSION: "${SMB_VERSION:-latest}"
     container_name: dc2

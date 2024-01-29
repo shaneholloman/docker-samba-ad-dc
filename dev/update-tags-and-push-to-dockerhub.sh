@@ -4,9 +4,9 @@ set -x
 
 repo="shaneholloman/samba-ad-dc"
 
-# Get samba version from last almalinux
+# Get samba version from last ubuntu
 if [[ -z "$SMB_VERSION" ]]; then
-  SMB_VERSION=$(docker run --rm samba:almalinux samba --version | awk '{ print $2 }')
+  SMB_VERSION=$(docker run --rm samba:ubuntu samba --version | awk '{ print $2 }')
 fi
 version=$SMB_VERSION
 
@@ -16,9 +16,9 @@ docker tag samba:arm64 "${repo}:arm64"
 docker push "${repo}:arm64"
 docker rmi "${repo}:arm64"
 
-# Update almalinux (main) tags
-for tag in amd64 almalinux "${version}"; do
-  docker tag samba:almalinux "${repo}:${tag}"
+# Update ubuntu (main) tags
+for tag in amd64 ubuntu "${version}"; do
+  docker tag samba:ubuntu "${repo}:${tag}"
   docker push "${repo}:${tag}"
   docker rmi "${repo}:${tag}"
 done
