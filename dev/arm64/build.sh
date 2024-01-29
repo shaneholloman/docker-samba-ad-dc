@@ -16,5 +16,5 @@ fi
 docker buildx build \
   --platform linux/arm64 \
   -f dockerfiles/almalinux \
-  --build-arg SMB_VERSION=$SMB_VERSION \
+  --build-arg SMB_VERSION="$SMB_VERSION" \
   --load --tag samba:arm64 .
