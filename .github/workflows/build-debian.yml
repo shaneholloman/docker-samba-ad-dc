@@ -1,4 +1,4 @@
-name: ubuntu
+name: build debian
 
 on:
   push:
@@ -21,6 +21,9 @@ on:
       - "Makefile"
       - "README.md"
 
+  workflow_dispatch:
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,4 +31,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the Docker image
-        run: docker build . --file dockerfiles/ubuntu --tag samba-ubuntu
+        run: docker build . --file dockerfiles/debian --tag samba-debian

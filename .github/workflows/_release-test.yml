@@ -1,4 +1,5 @@
-name: Docker Hub Access Test
+name: _release test
+
 on:
   push:
   workflow_dispatch:
