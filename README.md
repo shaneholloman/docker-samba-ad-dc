@@ -14,7 +14,7 @@ Samba Active Directory Domain Controller Docker Image - still dev stage - don't 
       -e ADMIN_PASS='Passw0rd' \
       -e DNS_FORWARDER='1.1.1.1' \
       -v dc1-samba:/usr/local/samba \
-      --name dc1 --hostname DC1 shaneholloman/samba-ad-dc
+      --name dc1 --hostname DC1 shaneholloman/samba-ad-dc-ubuntu:latest
     ```
 
 2. Show logs and run tests
@@ -39,8 +39,8 @@ Samba Active Directory Domain Controller Docker Image - still dev stage - don't 
 4. For multiple dc testing (no external access)
 
     ```sh
-    git clone --single-branch https://github.com/shaneholloman/samba-ad-dc
-    cd samba-ad-dc
+    git clone --single-branch https://github.com/shaneholloman/docker-samba-ad-dc
+    cd docker-samba-ad-dc
     docker compose build
     docker compose up -d
     docker compose logs -f
