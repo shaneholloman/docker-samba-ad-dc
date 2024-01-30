@@ -2,4 +2,6 @@
 set -eo pipefail
 set -x
 
-docker exec dc1 samba-tests
+for dc in dc{1,2,3,4}; do
+  docker compose exec "$dc" samba-tests
+done
