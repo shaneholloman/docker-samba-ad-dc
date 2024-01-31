@@ -2,15 +2,92 @@
 
 [![release alma](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-alma.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-alma.yml) [![release debian](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-debian.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-debian.yml) [![release rocky](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-rocky.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-rocky.yml) [![release ubuntu](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-ubuntu.yml/badge.svg)](https://github.com/shaneholloman/docker-samba-ad-dc/actions/workflows/release-ubuntu.yml)
 
-Samba Active Directory Domain Controller Docker Image - still dev stage - don't use
+Samba Active Directory Domain Controller Docker Image - still dev stage - don't use in production yet
+
+If you run the docker-compose file:
+
+```sh
+docker-compose -f docker-compose-dc1.yml up -d
+```
+
+You test the DC like this:
+
+```sh
+docker exec dc1 samba-tool domain level show
+```
+
+```sh --results=verbatim
+Domain and forest function level for domain 'DC=yoyo,DC=io'
+
+Forest function level: (Windows) 2008 R2
+Domain function level: (Windows) 2008 R2
+Lowest function level of a DC: (Windows) 2008 R2
+```
+
+```sh
+docker inspect dc1
+```
+
+```sh
+docker logs dc1
+```
+
+```sh
+docker exec dc1 samba-tool user list
+```
+
+```sh --results=verbatim
+Guest
+Administrator
+krbtgt
+```
+
+```sh
+docker exec dc1 samba-tool dns query localhost yoyo.io dc1 A --username=administrator --password=Passw0rd
+```
+
+```sh --results=verbatim
+WARNING: Using passwords on command line is insecure. Installing the setproctitle python module will hide these from shortly after program start.
+  Name=, Records=1, Children=0
+    A: 20.0.0.253 (flags=f0, serial=1, ttl=900)
+```
+
+```sh
+docker exec dc1 samba-tool user create yoda Passw0rd
+```
+
+```sh --results=verbatim
+User 'yoda' added successfully
+```
+
+```sh
+docker exec dc1 samba-tool user list
+```
+
+```sh --results=verbatim
+Guest
+Administrator
+krbtgt
+yoda
+```
+
+```sh
+docker exec dc1 samba-tool dns query localhost yoyo.io dc1 A --username=yoda --password=Passw0rd
+```
+
+```sh --results=verbatim
+WARNING: Using passwords on command line is insecure. Installing the setproctitle python module will hide these from shortly after program start.
+  Name=, Records=1, Children=0
+    A: 20.0.0.253 (flags=f0, serial=1, ttl=900)
+```
 
 1. Provision a new domain
 
     ```sh
     docker run -d --privileged \
       --restart=unless-stopped --network=host \
-      -e REALM='SAMDOM.EXAMPLE.COM' \
-      -e DOMAIN='SAMDOM' \
+      -e REALM='YOYO.IO' \
+      -e DOMAIN='YOYO' \
       -e ADMIN_PASS='Passw0rd' \
       -e DNS_FORWARDER='1.1.1.1' \
       -v dc1-samba:/usr/local/samba \

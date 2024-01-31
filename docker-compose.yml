@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   dc1:
     image: samba:ubuntu
@@ -13,22 +11,22 @@ services:
     hostname: DC1
     privileged: true
     environment:
-      REALM: DGS.NET
-      DOMAIN: DGS
+      REALM: YOYO.IO
+      DOMAIN: YOYO
       ADMIN_PASS: Passw0rd
       DNS_FORWARDER: 1.1.1.1
       BIND_NETWORK_INTERFACES: false
-    dns_search: dgs.net
+    dns_search: yoyo.io
     dns:
       - 172.16.238.10
       - 172.16.238.20
       - 172.16.238.30
       - 172.16.238.40
     extra_hosts:
-      - "DC1 DC1.dgs.net:172.16.238.10"
-      - "DC2 DC2.dgs.net:172.16.238.20"
-      - "DC3 DC3.dgs.net:172.16.238.30"
-      - "DC4 DC4.dgs.net:172.16.238.40"
+      - "DC1 DC1.yoyo.io:172.16.238.10"
+      - "DC2 DC2.yoyo.io:172.16.238.20"
+      - "DC3 DC3.yoyo.io:172.16.238.30"
+      - "DC4 DC4.yoyo.io:172.16.238.40"
     command: bash -c "samba-domain-provision && samba -F"
     volumes:
       - dc1-local-samba:/usr/local/samba
@@ -49,22 +47,22 @@ services:
     hostname: DC2
     privileged: true
     environment:
-      REALM: DGS.NET
-      DOMAIN: DGS
+      REALM: YOYO.IO
+      DOMAIN: YOYO
       ADMIN_PASS: Passw0rd
       DNS_FORWARDER: 1.1.1.1
       BIND_NETWORK_INTERFACES: false
-    dns_search: dgs.net
+    dns_search: yoyo.io
     dns:
       - 172.16.238.20
       - 172.16.238.30
       - 172.16.238.40
       - 172.16.238.10
     extra_hosts:
-      - "DC1 DC1.dgs.net:172.16.238.10"
-      - "DC2 DC2.dgs.net:172.16.238.20"
-      - "DC3 DC3.dgs.net:172.16.238.30"
-      - "DC4 DC4.dgs.net:172.16.238.40"
+      - "DC1 DC1.yoyo.io:172.16.238.10"
+      - "DC2 DC2.yoyo.io:172.16.238.20"
+      - "DC3 DC3.yoyo.io:172.16.238.30"
+      - "DC4 DC4.yoyo.io:172.16.238.40"
     command: bash -c "samba-domain-join DC1 && samba -F"
     volumes:
       - dc2-local-samba:/usr/local/samba
@@ -84,22 +82,22 @@ services:
     hostname: DC3
     privileged: true
     environment:
-      REALM: DGS.NET
-      DOMAIN: DGS
+      REALM: YOYO.IO
+      DOMAIN: YOYO
       ADMIN_PASS: Passw0rd
       DNS_FORWARDER: 1.1.1.1
       BIND_NETWORK_INTERFACES: false
-    dns_search: dgs.net
+    dns_search: yoyo.io
     dns:
       - 172.16.238.30
       - 172.16.238.40
       - 172.16.238.10
       - 172.16.238.20
     extra_hosts:
-      - "DC1 DC1.dgs.net:172.16.238.10"
-      - "DC2 DC2.dgs.net:172.16.238.20"
-      - "DC3 DC3.dgs.net:172.16.238.30"
-      - "DC4 DC4.dgs.net:172.16.238.40"
+      - "DC1 DC1.yoyo.io:172.16.238.10"
+      - "DC2 DC2.yoyo.io:172.16.238.20"
+      - "DC3 DC3.yoyo.io:172.16.238.30"
+      - "DC4 DC4.yoyo.io:172.16.238.40"
     command: bash -c "samba-domain-join DC1 && samba -F"
     volumes:
       - dc3-local-samba:/usr/local/samba
@@ -119,22 +117,22 @@ services:
     hostname: DC4
     privileged: true
     environment:
-      REALM: DGS.NET
-      DOMAIN: DGS
+      REALM: YOYO.IO
+      DOMAIN: YOYO
       ADMIN_PASS: Passw0rd
       DNS_FORWARDER: 1.1.1.1
       BIND_NETWORK_INTERFACES: false
-    dns_search: dgs.net
+    dns_search: yoyo.io
     dns:
       - 172.16.238.40
       - 172.16.238.10
       - 172.16.238.20
       - 172.16.238.30
     extra_hosts:
-      - "DC1 DC1.dgs.net:172.16.238.10"
-      - "DC2 DC2.dgs.net:172.16.238.20"
-      - "DC3 DC3.dgs.net:172.16.238.30"
-      - "DC4 DC4.dgs.net:172.16.238.40"
+      - "DC1 DC1.yoyo.io:172.16.238.10"
+      - "DC2 DC2.yoyo.io:172.16.238.20"
+      - "DC3 DC3.yoyo.io:172.16.238.30"
+      - "DC4 DC4.yoyo.io:172.16.238.40"
     command: bash -c "samba-domain-join DC1 && samba -F"
     volumes:
       - dc4-local-samba:/usr/local/samba
