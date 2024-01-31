@@ -10,7 +10,24 @@ If you run the docker-compose file:
 docker-compose -f docker-compose-dc1.yml up -d
 ```
 
-You test the DC like this:
+You can test the DC like this:
+
+But before you do you need to make sure that the docker context is correct for the host you are running on. For example, and by the way I haven't got a full handle why this is yet:
+
+```sh
+docker context ls
+NAME                TYPE                DESCRIPTION                               DOCKER ENDPOINT                                    KUBERNETES ENDPOINT   ORCHESTRATOR
+default             moby                Current DOCKER_HOST based configuration   unix:///var/run/docker.sock
+desktop-linux *     moby                Docker Desktop                            unix:///home/shadmin/.docker/desktop/docker.sock
+```
+
+```sh
+docker context use default
+default
+Current context is now "default"
+```
+
+- Or pick the context that works for you. Just FYI, I usually pick `desktop-linux` BUT, for some reason, it doesn't work for this container. I'm still trying to figure out why.  So I choose `default` as above, then all is well.
 
 ```sh
 docker exec dc1 samba-tool domain level show
@@ -94,7 +111,7 @@ WARNING: Using passwords on command line is insecure. Installing the setproctitl
       --name dc1 --hostname DC1 shaneholloman/samba-ad-dc-ubuntu:latest
     ```
 
-2. Show logs and run tests
+2. Show logs and run additional tests. The reason this works is because the script `./sbin/samba-tests` was pushed to the container during then build process.
 
     ```sh
     docker logs dc1 -f
@@ -103,14 +120,22 @@ WARNING: Using passwords on command line is insecure. Installing the setproctitl
 
 3. For external access, update the `/etc/resolv.conf` and `/etc/hosts` from your host, replacing `host_ip`
 
-    ```ini
-    # /etc/resolv.conf
-    search samdom.example.com
-    nameserver host_ip
+    ```sh
+    nano /etc/resolv.conf
+    ```
 
-    # /etc/hosts
-    127.0.0.1     localhost
-    host_ip       DC1.samdom.example.com     DC1
+    ```ini
+    search yoyo.io
+    nameserver host_ip
+    ```
+
+    ```sh
+    nano /etc/hosts
+    ```
+
+    ```ini
+    127.0.0.1       localhost
+    host_ip       DC1.yoyo.io     DC1
     ```
 
 4. For multiple dc testing (no external access)
@@ -126,7 +151,6 @@ WARNING: Using passwords on command line is insecure. Installing the setproctitl
 
 TODO:
 
-- [ ] set another default domain testing server and client
 - [ ] Create vscode devcontainer for portable development of this repo since flipping between os's is a pain
 - [ ] [Sysvol replication workaround](https://wiki.samba.org/index.php/Rsync_based_SysVol_replication_workaround)
 
