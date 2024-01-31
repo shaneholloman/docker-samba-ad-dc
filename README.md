@@ -149,11 +149,6 @@ WARNING: Using passwords on command line is insecure. Installing the setproctitl
     for dc in dc{1,2,3,4}; do docker compose exec $dc samba-tests; done
     ```
 
-TODO:
-
-- [ ] Create vscode devcontainer for portable development of this repo since flipping between os's is a pain
-- [ ] [Sysvol replication workaround](https://wiki.samba.org/index.php/Rsync_based_SysVol_replication_workaround)
-
 Links:
 
 - [Setup](https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller)
